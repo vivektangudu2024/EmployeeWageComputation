@@ -4,10 +4,15 @@ import java.util.*;
 public class EmployeeWageComputation {
     public static void main(String[] args) {
         System.out.println("Welcome to Employee Wage Computation Program");
-
+        // Constants
+        int wagePerHour = 20;
+        int fullDayHours = 8;
+        
         // Calling the checkAttendance method to determine if the employee is present or absent
         if (checkAttendance()) {
             System.out.println("Employee is Present");
+            int dailyWage = calculateDailyWage(wagePerHour, fullDayHours);
+            System.out.println("Daily Employee Wage: " + dailyWage);
         } else {
             System.out.println("Employee is Absent");
         }
@@ -27,5 +32,9 @@ public class EmployeeWageComputation {
 
         // Returning true if attendance is 1 (present), false otherwise
         return attendance == 1;
+    }
+
+    private static int calculateDailyWage(int wagePerHour, int hoursWorked) {
+        return wagePerHour * hoursWorked;
     }
 }
