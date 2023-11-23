@@ -19,15 +19,17 @@ public class EmployeeWageComputation {
 
 
             // Displaying the type of work
-            if (workingHours == fullDayHours) {
-                System.out.println("Type of Work: Full Time");
-            } else {
-                System.out.println("Type of Work: Part Time");
+            switch (workingHours) {
+                case 8:
+                    System.out.println("Type of Work: Full Time");
+                    break;
+                case 4:
+                    System.out.println("Type of Work: Part Time");
+                    break;
             }
         } else {
             System.out.println("Employee is Absent");
         }
-
         // Calculate daily wage based on the type of work
         int dailyWage = calculateDailyWage(wagePerHour, workingHours);
         System.out.println("Daily Employee Wage: " + dailyWage);
