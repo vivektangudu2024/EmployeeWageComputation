@@ -10,15 +10,18 @@ public class EmployeeWageComputation {
         int fullDayHours = 8;
         int partTimeHours = 4;
         int totalWorkingDays = 20;
+        int maxTotalWorkingHours = 100;
 
         int totalWage = 0;
+        int totalWorkingHours = 0;
+        int daysWorked = 0;
 
-        for (int day = 1; day <= totalWorkingDays; day++) {
+        while (daysWorked < totalWorkingDays && totalWorkingHours < maxTotalWorkingHours) {
             // Calling the checkAttendance method to determine the type of work (full-time, part-time, or absent)
             int workingHours = checkAttendance(fullDayHours, partTimeHours);
 
             if (workingHours > 0) {
-                System.out.println("Day " + day + ": Employee is Present");
+                System.out.println("Day " + (daysWorked + 1) + ": Employee is Present");
 
                 // Calculate daily wage based on the type of work
                 int dailyWage = calculateDailyWage(wagePerHour, workingHours);
@@ -26,6 +29,9 @@ public class EmployeeWageComputation {
 
                 // Accumulate the daily wage to the total wage
                 totalWage += dailyWage;
+
+                // Accumulate the working hours
+                totalWorkingHours += workingHours;
 
                 // Displaying the type of work
                 switch (workingHours) {
@@ -37,13 +43,18 @@ public class EmployeeWageComputation {
                         break;
                 }
             } else {
-                System.out.println("Day " + day + ": Employee is Absent");
+                System.out.println("Day " + (daysWorked + 1) + ": Employee is Absent");
             }
+
+            // Increment the days worked
+            daysWorked++;
+
             System.out.println();
         }
 
-        // Displaying the total wage for the month
+        // Displaying the total wage and total working hours
         System.out.println("Total Wage for the Month: " + totalWage);
+        System.out.println("Total Working Hours: " + totalWorkingHours);
     }
 
     /*
