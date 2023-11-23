@@ -9,30 +9,41 @@ public class EmployeeWageComputation {
         int wagePerHour = 20;
         int fullDayHours = 8;
         int partTimeHours = 4;
+        int totalWorkingDays = 20;
 
-        // Calling the checkAttendance method to determine the type of work (full-time, part-time, or absent)
-        int workingHours = checkAttendance(fullDayHours, partTimeHours);
+        int totalWage = 0;
 
-        if (workingHours > 0) {
-            System.out.println("Employee is Present");
+        for (int day = 1; day <= totalWorkingDays; day++) {
+            // Calling the checkAttendance method to determine the type of work (full-time, part-time, or absent)
+            int workingHours = checkAttendance(fullDayHours, partTimeHours);
 
+            if (workingHours > 0) {
+                System.out.println("Day " + day + ": Employee is Present");
 
+                // Calculate daily wage based on the type of work
+                int dailyWage = calculateDailyWage(wagePerHour, workingHours);
+                System.out.println("Daily Employee Wage: " + dailyWage);
 
-            // Displaying the type of work
-            switch (workingHours) {
-                case 8:
-                    System.out.println("Type of Work: Full Time");
-                    break;
-                case 4:
-                    System.out.println("Type of Work: Part Time");
-                    break;
+                // Accumulate the daily wage to the total wage
+                totalWage += dailyWage;
+
+                // Displaying the type of work
+                switch (workingHours) {
+                    case 8:
+                        System.out.println("Type of Work: Full Time");
+                        break;
+                    case 4:
+                        System.out.println("Type of Work: Part Time");
+                        break;
+                }
+            } else {
+                System.out.println("Day " + day + ": Employee is Absent");
             }
-        } else {
-            System.out.println("Employee is Absent");
+            System.out.println();
         }
-        // Calculate daily wage based on the type of work
-        int dailyWage = calculateDailyWage(wagePerHour, workingHours);
-        System.out.println("Daily Employee Wage: " + dailyWage);
+
+        // Displaying the total wage for the month
+        System.out.println("Total Wage for the Month: " + totalWage);
     }
 
     /*
