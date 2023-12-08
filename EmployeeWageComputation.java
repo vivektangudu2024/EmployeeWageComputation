@@ -165,7 +165,14 @@ public class EmployeeWageComputation implements IEmpWageBuilder{
             System.out.println();
         }
     }
-
+    public int getTotalWageByCompany(String companyName) {
+        for (CompanyEmpWage companyEmpWage : companyEmpWages) {
+            if (companyEmpWage.getCompanyName().equals(companyName)) {
+                return companyEmpWage.getTotalWage();
+            }
+        }
+        return 0; // Return 0 if the company is not found
+    }
     public static void main(String[] args) {
         EmployeeWageComputation empWageBuilder = new EmployeeWageComputation();
 
@@ -174,5 +181,10 @@ public class EmployeeWageComputation implements IEmpWageBuilder{
 
         empWageBuilder.computeEmployeeWages();
         empWageBuilder.displayTotalWages();
+
+
+        String queriedCompany = "Company A";
+        int totalWageForQueriedCompany = empWageBuilder.getTotalWageByCompany(queriedCompany);
+        System.out.println("Total Wage for " + queriedCompany + ": " + totalWageForQueriedCompany);
     }
 }
