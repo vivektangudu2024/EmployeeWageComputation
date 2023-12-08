@@ -1,11 +1,12 @@
 package com.day3;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
 interface IEmpWageBuilder {
     void addCompany(String companyName, int wagePerHour, int fullDayHours,
-                    int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours, int Index);
+                    int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours);
 
     void computeEmployeeWages();
 
@@ -130,50 +131,38 @@ class CompanyEmpWage {
     }
 }
 public class EmployeeWageComputation implements IEmpWageBuilder{
-    private final int numCompanies;
-    private final CompanyEmpWage[] companyEmpWages;
+    private final ArrayList<CompanyEmpWage> companyEmpWages;
 
-    // @desc: Constructor to initialize the EmpWageBuilder with the number of companies
-    public EmployeeWageComputation(int numCompanies) {
-        this.numCompanies = numCompanies;
-        this.companyEmpWages = new CompanyEmpWage[numCompanies];
+    public EmployeeWageComputation() {
+        this.companyEmpWages = new ArrayList<>();
     }
 
-    // @desc: Method to add a company with specific details to the array
-    @Override
     public void addCompany(String companyName, int wagePerHour, int fullDayHours,
-                           int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours, int index) {
-        companyEmpWages[index] = new CompanyEmpWage(companyName, wagePerHour, fullDayHours,
-                partTimeHours, totalWorkingDays, maxTotalWorkingHours);
+                           int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours) {
+        companyEmpWages.add(new CompanyEmpWage(companyName, wagePerHour, fullDayHours,
+                partTimeHours, totalWorkingDays, maxTotalWorkingHours));
     }
 
-    // @desc: Method to compute employee wage for all companies
-    @Override
     public void computeEmployeeWages() {
-        for (int i = 0; i < numCompanies; i++) {
-            companyEmpWages[i].computeEmployeeWage();
+        for (CompanyEmpWage companyEmpWage : companyEmpWages) {
+            companyEmpWage.computeEmployeeWage();
         }
     }
 
-    //  @desc: Method to display the total wage for each company
-    @Override
     public void displayTotalWages() {
-        for (int i = 0; i < numCompanies; i++) {
-            System.out.println("Total Wage for the Month at " + companyEmpWages[i].getCompanyName() +
-                    ": " + companyEmpWages[i].getTotalWage());
+        for (CompanyEmpWage companyEmpWage : companyEmpWages) {
+            System.out.println("Total Wage for the Month at " + companyEmpWage.getCompanyName() +
+                    ": " + companyEmpWage.getTotalWage());
             System.out.println();
         }
     }
 
     public static void main(String[] args) {
-        // Create an EmpWageBuilder with the number of companies
-        EmployeeWageComputation empWageBuilder = new EmployeeWageComputation(2);
+        EmployeeWageComputation empWageBuilder = new EmployeeWageComputation();
 
-        // Add companies with specific details
-        empWageBuilder.addCompany("Company A", 25, 8, 4, 20, 100, 0);
-        empWageBuilder.addCompany("Company B", 22, 8, 4, 25, 120, 1);
+        empWageBuilder.addCompany("Company A", 25, 8, 4, 20, 100);
+        empWageBuilder.addCompany("Company B", 22, 8, 4, 25, 120);
 
-        // Compute and display employee wages for all companies
         empWageBuilder.computeEmployeeWages();
         empWageBuilder.displayTotalWages();
     }
