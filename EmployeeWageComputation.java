@@ -1,82 +1,70 @@
 package com.day3;
 
-import java.util.*;
+import java.util.Random;
+
 public class EmployeeWageComputation {
+    // Constants
+    private static final int WAGE_PER_HOUR = 20;
+    private static final int FULL_DAY_HOURS = 8;
+    private static final int PART_TIME_HOURS = 4;
+    private static final int TOTAL_WORKING_DAYS = 20;
+    private static final int MAX_TOTAL_WORKING_HOURS = 100;
+
+    // Class variables
+    private static int totalWage = 0;
+    private static int totalWorkingHours = 0;
+    private static int daysWorked = 0;
+
     public static void main(String[] args) {
         System.out.println("Welcome to Employee Wage Computation Program");
+        computeEmployeeWage();
+    }
 
-        // Constants
-        int wagePerHour = 20;
-        int fullDayHours = 8;
-        int partTimeHours = 4;
-        int totalWorkingDays = 20;
-        int maxTotalWorkingHours = 100;
-
-        int totalWage = 0;
-        int totalWorkingHours = 0;
-        int daysWorked = 0;
-
-        while (daysWorked < totalWorkingDays && totalWorkingHours < maxTotalWorkingHours) {
-            // Calling the checkAttendance method to determine the type of work (full-time, part-time, or absent)
-            int workingHours = checkAttendance(fullDayHours, partTimeHours);
+    /*
+     * @Desc : compute employee wage using class methods and class variables
+     */
+    public static void computeEmployeeWage() {
+        while (daysWorked < TOTAL_WORKING_DAYS && totalWorkingHours < MAX_TOTAL_WORKING_HOURS) {
+            int workingHours = checkAttendance();
 
             if (workingHours > 0) {
                 System.out.println("Day " + (daysWorked + 1) + ": Employee is Present");
 
-                // Calculate daily wage based on the type of work
-                int dailyWage = calculateDailyWage(wagePerHour, workingHours);
+                int dailyWage = calculateDailyWage(workingHours);
                 System.out.println("Daily Employee Wage: " + dailyWage);
 
-                // Accumulate the daily wage to the total wage
                 totalWage += dailyWage;
-
-                // Accumulate the working hours
                 totalWorkingHours += workingHours;
 
-                // Displaying the type of work
-                switch (workingHours) {
-                    case 8:
-                        System.out.println("Type of Work: Full Time");
-                        break;
-                    case 4:
-                        System.out.println("Type of Work: Part Time");
-                        break;
-                }
+                displayTypeOfWork(workingHours);
             } else {
                 System.out.println("Day " + (daysWorked + 1) + ": Employee is Absent");
             }
 
-            // Increment the days worked
             daysWorked++;
 
             System.out.println();
         }
 
-        // Displaying the total wage and total working hours
         System.out.println("Total Wage for the Month: " + totalWage);
         System.out.println("Total Working Hours: " + totalWorkingHours);
     }
 
     /*
      * @Desc : check employee attendance and return the number of working hours
-     * @Params: fullTimeHours, partTimeHours
-     * @returns: 0 for Absent, fullTimeHours for Full Time, partTimeHours for Part Time
+     * @returns: 0 for Absent, FULL_DAY_HOURS for Full Time, PART_TIME_HOURS for Part Time
      */
-    public static int checkAttendance(int fullTimeHours, int partTimeHours) {
-        // Creating an instance of Random class
+    private static int checkAttendance() {
         Random random = new Random();
-
-        // Generating a random number (0, 1, or 2) representing attendance
         int attendance = random.nextInt(3);
 
-        // Returning the number of working hours based on the attendance value
         switch (attendance) {
             case 0:
                 return 0; // Absent
             case 1:
-                return fullTimeHours; // Full Time
+                return FULL_DAY_HOURS; // Full Time
             case 2:
-                return partTimeHours; // Part Time
+                return PART_TIME_HOURS; // Part Time
             default:
                 return 0; // Absent (default case)
         }
@@ -84,10 +72,25 @@ public class EmployeeWageComputation {
 
     /*
      * @Desc : calculate daily wage
-     * @Params: wagePerHour, hoursWorked
+     * @Params: hoursWorked
      * @returns: daily wage
      */
-    private static int calculateDailyWage(int wagePerHour, int hoursWorked) {
-        return wagePerHour * hoursWorked;
+    private static int calculateDailyWage(int hoursWorked) {
+        return WAGE_PER_HOUR * hoursWorked;
+    }
+
+    /*
+     * @Desc : display the type of work based on the number of working hours
+     * @Params: hoursWorked
+     */
+    private static void displayTypeOfWork(int hoursWorked) {
+        switch (hoursWorked) {
+            case FULL_DAY_HOURS:
+                System.out.println("Type of Work: Full Time");
+                break;
+            case PART_TIME_HOURS:
+                System.out.println("Type of Work: Part Time");
+                break;
+        }
     }
 }
