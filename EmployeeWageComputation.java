@@ -6,7 +6,8 @@ import java.util.Random;
  * @Desc : Employee wage Calculator class
  * @Methods : computeEmployeeWage, checkAttendance, calculateDailyWage
  */
-class EmpWageBuilder {
+
+class CompanyEmpWage {
     private final String companyName;
     private final int wagePerHour;
     private final int fullDayHours;
@@ -18,8 +19,8 @@ class EmpWageBuilder {
     private int totalWage = 0;
     private int totalWorkingHours = 0;
 
-    // Constructor to initialize instance variables
-    public EmpWageBuilder(String companyName, int wagePerHour, int fullDayHours,
+    //@desc: Constructor to initialize company-specific details
+    public CompanyEmpWage(String companyName, int wagePerHour, int fullDayHours,
                           int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours) {
         this.companyName = companyName;
         this.wagePerHour = wagePerHour;
@@ -107,18 +108,60 @@ class EmpWageBuilder {
                 break;
         }
     }
+
+    //@desc: Getter method to retrieve the total wage for reporting
+    public int getTotalWage() {
+        return totalWage;
+    }
+
+    //@desc: Getter method to retrieve the total wage for reporting
+    public String getCompanyName() {
+        return companyName;
+    }
 }
 public class EmployeeWageComputation {
-    /*
-     * @Desc : compute employee wage for a company
-     * @Params: companyName, wagePerHour, fullDayHours, partTimeHours, totalWorkingDays, maxTotalWorkingHours
-     */
-    public static void main(String[] args) {
-        // Create objects for different companies and compute employee wages
-        EmpWageBuilder companyA = new EmpWageBuilder("Company A", 25, 8, 4, 20, 100);
-        EmpWageBuilder companyB = new EmpWageBuilder("Company B", 22, 8, 4, 25, 120);
+    private final int numCompanies;
+    private final CompanyEmpWage[] companyEmpWages;
 
-        companyA.computeEmployeeWage();
-        companyB.computeEmployeeWage();
+    // @desc: Constructor to initialize the EmpWageBuilder with the number of companies
+    public EmployeeWageComputation(int numCompanies) {
+        this.numCompanies = numCompanies;
+        this.companyEmpWages = new CompanyEmpWage[numCompanies];
+    }
+
+    // @desc: Method to add a company with specific details to the array
+    public void addCompany(String companyName, int wagePerHour, int fullDayHours,
+                           int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours, int index) {
+        companyEmpWages[index] = new CompanyEmpWage(companyName, wagePerHour, fullDayHours,
+                partTimeHours, totalWorkingDays, maxTotalWorkingHours);
+    }
+
+    // @desc: Method to compute employee wage for all companies
+    public void computeEmployeeWages() {
+        for (int i = 0; i < numCompanies; i++) {
+            companyEmpWages[i].computeEmployeeWage();
+        }
+    }
+
+    //  @desc: Method to display the total wage for each company
+    public void displayTotalWages() {
+        for (int i = 0; i < numCompanies; i++) {
+            System.out.println("Total Wage for the Month at " + companyEmpWages[i].getCompanyName() +
+                    ": " + companyEmpWages[i].getTotalWage());
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        // Create an EmpWageBuilder with the number of companies
+        EmployeeWageComputation empWageBuilder = new EmployeeWageComputation(2);
+
+        // Add companies with specific details
+        empWageBuilder.addCompany("Company A", 25, 8, 4, 20, 100, 0);
+        empWageBuilder.addCompany("Company B", 22, 8, 4, 25, 120, 1);
+
+        // Compute and display employee wages for all companies
+        empWageBuilder.computeEmployeeWages();
+        empWageBuilder.displayTotalWages();
     }
 }
