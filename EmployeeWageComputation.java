@@ -30,7 +30,10 @@ class CompanyEmpWage {
     private int totalWage = 0;
     private int totalWorkingHours = 0;
 
-    //@desc: Constructor to initialize company-specific details
+    // ArrayList to store daily wages
+    private final ArrayList<Integer> dailyWages = new ArrayList<>();
+
+    // Constructor to initialize company-specific details
     public CompanyEmpWage(String companyName, int wagePerHour, int fullDayHours,
                           int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours) {
         this.companyName = companyName;
@@ -41,9 +44,7 @@ class CompanyEmpWage {
         this.maxTotalWorkingHours = maxTotalWorkingHours;
     }
 
-    /*
-     * @Desc : compute employee wage for the company
-     */
+    // Method to compute employee wages for the company
     public void computeEmployeeWage() {
         System.out.println("Welcome to " + companyName + " Employee Wage Computation Program");
 
@@ -58,6 +59,9 @@ class CompanyEmpWage {
                 int dailyWage = calculateDailyWage(workingHours);
                 System.out.println("Daily Employee Wage: " + dailyWage);
 
+                // Store the daily wage in the list
+                dailyWages.add(dailyWage);
+
                 totalWage += dailyWage;
                 totalWorkingHours += workingHours;
 
@@ -71,10 +75,15 @@ class CompanyEmpWage {
             System.out.println();
         }
 
+        // Displaying the total wage and total working hours
         System.out.println("Total Wage for the Month at " + companyName + ": " + totalWage);
         System.out.println("Total Working Hours at " + companyName + ": " + totalWorkingHours);
+
+        // Displaying the list of daily wages
+        System.out.println("Daily Wages at " + companyName + ": " + dailyWages);
         System.out.println();
     }
+
 
     /*
      * @Desc : check employee attendance and return the number of working hours
