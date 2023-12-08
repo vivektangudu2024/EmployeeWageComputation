@@ -3,34 +3,25 @@ package com.day3;
 import java.util.Random;
 
 public class EmployeeWageComputation {
-    // Constants
-    private static final int WAGE_PER_HOUR = 20;
-    private static final int FULL_DAY_HOURS = 8;
-    private static final int PART_TIME_HOURS = 4;
-    private static final int TOTAL_WORKING_DAYS = 20;
-    private static final int MAX_TOTAL_WORKING_HOURS = 100;
-
-    // Class variables
-    private static int totalWage = 0;
-    private static int totalWorkingHours = 0;
-    private static int daysWorked = 0;
-
-    public static void main(String[] args) {
-        System.out.println("Welcome to Employee Wage Computation Program");
-        computeEmployeeWage();
-    }
-
     /*
-     * @Desc : compute employee wage using class methods and class variables
+     * @Desc : compute employee wage for a company
+     * @Params: companyName, wagePerHour, fullDayHours, partTimeHours, totalWorkingDays, maxTotalWorkingHours
      */
-    public static void computeEmployeeWage() {
-        while (daysWorked < TOTAL_WORKING_DAYS && totalWorkingHours < MAX_TOTAL_WORKING_HOURS) {
-            int workingHours = checkAttendance();
+    public static void computeEmployeeWage(String companyName, int wagePerHour, int fullDayHours,
+                                           int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours) {
+        System.out.println("Welcome to " + companyName + " Employee Wage Computation Program");
+
+        int totalWage = 0;
+        int totalWorkingHours = 0;
+        int daysWorked = 0;
+
+        while (daysWorked < totalWorkingDays && totalWorkingHours < maxTotalWorkingHours) {
+            int workingHours = checkAttendance(fullDayHours, partTimeHours);
 
             if (workingHours > 0) {
                 System.out.println("Day " + (daysWorked + 1) + ": Employee is Present");
 
-                int dailyWage = calculateDailyWage(workingHours);
+                int dailyWage = calculateDailyWage(wagePerHour, workingHours);
                 System.out.println("Daily Employee Wage: " + dailyWage);
 
                 totalWage += dailyWage;
@@ -46,15 +37,17 @@ public class EmployeeWageComputation {
             System.out.println();
         }
 
-        System.out.println("Total Wage for the Month: " + totalWage);
-        System.out.println("Total Working Hours: " + totalWorkingHours);
+        System.out.println("Total Wage for the Month at " + companyName + ": " + totalWage);
+        System.out.println("Total Working Hours at " + companyName + ": " + totalWorkingHours);
+        System.out.println();
     }
 
     /*
      * @Desc : check employee attendance and return the number of working hours
-     * @returns: 0 for Absent, FULL_DAY_HOURS for Full Time, PART_TIME_HOURS for Part Time
+     * @Params: fullTimeHours, partTimeHours
+     * @returns: 0 for Absent, fullTimeHours for Full Time, partTimeHours for Part Time
      */
-    private static int checkAttendance() {
+    private static int checkAttendance(int fullTimeHours, int partTimeHours) {
         Random random = new Random();
         int attendance = random.nextInt(3);
 
@@ -62,9 +55,9 @@ public class EmployeeWageComputation {
             case 0:
                 return 0; // Absent
             case 1:
-                return FULL_DAY_HOURS; // Full Time
+                return fullTimeHours; // Full Time
             case 2:
-                return PART_TIME_HOURS; // Part Time
+                return partTimeHours; // Part Time
             default:
                 return 0; // Absent (default case)
         }
@@ -72,11 +65,11 @@ public class EmployeeWageComputation {
 
     /*
      * @Desc : calculate daily wage
-     * @Params: hoursWorked
+     * @Params: wagePerHour, hoursWorked
      * @returns: daily wage
      */
-    private static int calculateDailyWage(int hoursWorked) {
-        return WAGE_PER_HOUR * hoursWorked;
+    private static int calculateDailyWage(int wagePerHour, int hoursWorked) {
+        return wagePerHour * hoursWorked;
     }
 
     /*
@@ -85,12 +78,18 @@ public class EmployeeWageComputation {
      */
     private static void displayTypeOfWork(int hoursWorked) {
         switch (hoursWorked) {
-            case FULL_DAY_HOURS:
+            case 8:
                 System.out.println("Type of Work: Full Time");
                 break;
-            case PART_TIME_HOURS:
+            case 4:
                 System.out.println("Type of Work: Part Time");
                 break;
         }
+    }
+
+    public static void main(String[] args) {
+        // Create objects for different companies and compute employee wages
+        computeEmployeeWage("Company A", 25, 8, 4, 20, 100);
+        computeEmployeeWage("Company B", 22, 8, 4, 25, 120);
     }
 }
