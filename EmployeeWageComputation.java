@@ -2,6 +2,16 @@ package com.day3;
 
 import java.util.Random;
 
+
+interface IEmpWageBuilder {
+    void addCompany(String companyName, int wagePerHour, int fullDayHours,
+                    int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours, int Index);
+
+    void computeEmployeeWages();
+
+    void displayTotalWages();
+}
+
 /*
  * @Desc : Employee wage Calculator class
  * @Methods : computeEmployeeWage, checkAttendance, calculateDailyWage
@@ -119,7 +129,7 @@ class CompanyEmpWage {
         return companyName;
     }
 }
-public class EmployeeWageComputation {
+public class EmployeeWageComputation implements IEmpWageBuilder{
     private final int numCompanies;
     private final CompanyEmpWage[] companyEmpWages;
 
@@ -130,6 +140,7 @@ public class EmployeeWageComputation {
     }
 
     // @desc: Method to add a company with specific details to the array
+    @Override
     public void addCompany(String companyName, int wagePerHour, int fullDayHours,
                            int partTimeHours, int totalWorkingDays, int maxTotalWorkingHours, int index) {
         companyEmpWages[index] = new CompanyEmpWage(companyName, wagePerHour, fullDayHours,
@@ -137,6 +148,7 @@ public class EmployeeWageComputation {
     }
 
     // @desc: Method to compute employee wage for all companies
+    @Override
     public void computeEmployeeWages() {
         for (int i = 0; i < numCompanies; i++) {
             companyEmpWages[i].computeEmployeeWage();
@@ -144,6 +156,7 @@ public class EmployeeWageComputation {
     }
 
     //  @desc: Method to display the total wage for each company
+    @Override
     public void displayTotalWages() {
         for (int i = 0; i < numCompanies; i++) {
             System.out.println("Total Wage for the Month at " + companyEmpWages[i].getCompanyName() +
